@@ -5,25 +5,20 @@ from datetime import datetime
 
 class Dog(SQLModel, table = True):
     __tablename__ = "Dogs"
+    name:str | None = Field(default = None,min_length=1,max_length=100)
+    size: str | None = Field(default = None,min_length=1,max_length=100)
+    dangerous : bool = Field(default = False)
+    sterilized : bool = Field(default = False)
+    breed : bool = Field(default = False)
+
+
+class Dogsid(Dog, table = True):
+    __tablename__ = "DogsIds"
+    id : int|None = Field(default = None,primary_key=True)
+
 
     created: datetime = Field(
         default_factory=datetime.utcnow(),
         sa_column_kwargs={"server_default": "NOW()"}
     )
 
-class Sticker(SQLModel, table = True):
-    __tablename__ = "Stickers"
-
-    created: datetime = Field(
-        default_factory=datetime.utcnow(),
-        sa_column_kwargs={"server_default": "NOW()"}
-    )
-
-
-class Book(SQLModel, table = True):
-    __tablename__ = "Books"
-
-    created: datetime = Field(
-        default_factory=datetime.utcnow(),
-        sa_column_kwargs={"server_default": "NOW()"}
-    )
