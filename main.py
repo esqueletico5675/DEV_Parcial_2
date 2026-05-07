@@ -1,8 +1,8 @@
 from typing import List
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from db import  SessionDep, create_all_tables
 from sqlmodel import select
-from operations import showdog, createdog
+from operations import showdog, createdog,finonedog,killdog,uptadedog
 from model import Dogsid,Dog
 
 app = FastAPI(lifespan=create_all_tables)
@@ -16,4 +16,10 @@ async def createssgod(dogs: Dog, session:SessionDep):
 async def showdogalls(session:SessionDep):
     return showdog(session)
 
+@app.get ("/findondegod",response_model=Dogsid):
+async def finddogs (id:int,session:SessionDep):
+    dog = finonedog(session,id)
+    if not (dog):
+        raise HTTPException(status_code=404, detail="Dog not found")
+    return dog
 
