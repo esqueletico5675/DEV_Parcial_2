@@ -6,5 +6,8 @@ def createdog (dogs: Dog, session: Session):
     newdog = Dogsid.model_validate(dogs)
     session.add(newdog)
     session.commit()
-    sesion.refresh(newdog)
+    session.refresh(newdog)
     return newdog
+
+def showdog ( session: Session):
+    return session.exec(select(Dogsid)).all()

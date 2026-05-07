@@ -1,14 +1,17 @@
 import os
+
+from dotenv import load_dotenv
 from sqlmodel import Session, create_engine, SQLModel
 from fastapi import FastAPI, Depends
 from typing import Annotated
 
+sqlite_name="apk.sqlite3"
+sqlite_url=(f"sqlite:///{sqlite_name}")
 
-engine = create_engine()
+engine = create_engine(sqlite_url)
 
 def create_all_tables(app: FastAPI):
-    if os.getenv("ENV") == "dev":
-        SQLModel.metadata.create_all(engine)
+    SQLModel.metadata.create_all(engine)
     yield
 
 

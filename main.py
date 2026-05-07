@@ -1,20 +1,19 @@
 from typing import List
-
 from fastapi import FastAPI
-
 from db import  SessionDep, create_all_tables
 from sqlmodel import select
+from operations import showdog, createdog
+from model import Dogsid,Dog
 
-app = FastAPI()
+app = FastAPI(lifespan=create_all_tables)
+
+@app.post("/dogcreated",response_model=Dogsid)
+async def createssgod(dogs: Dog, session:SessionDep):
+    return createdog(dogs, session)
 
 
+@app.get("/showdogall",response_model=list[Dogsid])
+async def showdogalls(session:SessionDep):
+    return showdog(session)
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
